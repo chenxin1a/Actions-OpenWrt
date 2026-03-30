@@ -14,18 +14,45 @@ name: OpenWrt Builder
 
 on:
   repository_dispatch:
+    types: [ "Source Code Update" ]
   workflow_dispatch:
+    inputs:
+      repo:
+        description: '指定源码仓库地址'
+        required: true
+        type: string
+        default: 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
+      commit:
+        description: '指定源码commit进行编译，留空拉取最新源码'
+        required: false
+        type: string
+        default: ''
+      ssh:
+        description: '是否执行 make menuconfig, 编译设备为 all 时无效'
+        required: false
+        type: boolean
+        default: false
+      release:
+        description: '是否发布编译产物到 Release'
+        required: false
+        type: boolean
+        default: true
+      prerelease:
+        description: '是否发布为预发布版本 (Pre-release)'
+        required: false
+        type: boolean
+        default: false
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
+  REPO_URL: ${{ github.event.inputs.repo }}
+  REPO_BRANCH: openwrt-24.10-6.6
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
-  UPLOAD_FIRMWARE: true
-  UPLOAD_RELEASE: true
+  UPLOAD_FIRMWARE: ${{ github.event.inputs.release }}
+  UPLOAD_RELEASE: ${{ github.event.inputs.prerelease }}
   TZ: Asia/Shanghai
 
 jobs:
