@@ -208,7 +208,7 @@ jobs:
 
           cd /workdir/openwrt
 
-          CONFIG="config/$DEVICE.config" ;;
+          CONFIG="config/$DEVICE.config"
             
           echo "Using Config: $CONFIG"
             
