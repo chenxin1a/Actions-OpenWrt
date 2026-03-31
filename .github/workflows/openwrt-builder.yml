@@ -209,9 +209,14 @@ jobs:
 
           cd /workdir/openwrt
 
+          
+          # 2. 设置当前设备配置文件
           CONFIG="config/$DEVICES.config"
             
           echo "Using Config: $CONFIG"
+
+          echo "Current Directory: $(pwd)"
+          find $GITHUB_WORKSPACE -maxdepth 3 -name "*.config"
             
             # 3. 加载配置
             cp -f $GITHUB_WORKSPACE/$CONFIG .config
