@@ -89,7 +89,6 @@ jobs:
         run: |
           DEVICES="${DEVICE_INPUT}"
           echo "CONFIG_FILE=config/$DEVICE.config" >> $GITHUB_ENV
-          esac
 
       - name: 👩‍💻 Copy previous config if exists
         run: |
