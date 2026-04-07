@@ -27,6 +27,11 @@ on:
         required: true
         type: string
         default: 'https://github.com/padavanonly/immortalwrt-mt798x-6.6'
+      branch:
+        description: '指定源码branch进行编译，默认值为openwrt-24.10-6.6'
+        required: false
+        type: string
+        default: 'openwrt-24.10-6.6'
       commit:
         description: '指定源码commit进行编译，留空拉取最新源码'
         required: false
@@ -53,7 +58,7 @@ env:
   CCACHE_DIR: /workdir/.ccache
   CCACHE_MAXSIZE: 2G
   REPO_URL: ${{ github.event.inputs.repo }}
-  REPO_BRANCH: openwrt-24.10-6.6
+  REPO_BRANCH: ${{ github.event.inputs.branch }}
   REPO_COMMIT: ${{ github.event.inputs.commit }}
   FEEDS_CONF: feeds.conf.default
   DIY_P1_SH: diy-part1.sh
