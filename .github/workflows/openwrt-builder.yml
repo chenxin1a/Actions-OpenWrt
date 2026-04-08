@@ -251,6 +251,13 @@ jobs:
             -name "*gpt.bin" \
             \) -exec cp {} $GITHUB_WORKSPACE/firmware_collection/ \;
 
+          echo "🔎 Verifying collected files in firmware_collection:"
+          if [ -d "$GITHUB_WORKSPACE/firmware_collection" ]; then
+            ls -lh $GITHUB_WORKSPACE/firmware_collection/
+          else
+            echo "❌ Error: firmware_collection directory not found!"
+          fi
+
           echo "status=success" >> $GITHUB_OUTPUT
 
       - name: 🪄 Upload Binaries (Artifacts)
@@ -302,7 +309,3 @@ jobs:
         with:
           retain_days: 0
           keep_minimum_runs: 9
-      - name: delete openwrt files
-        working-directory: /workdir
-        run: |
-          sudo rm -rf openwrt/
