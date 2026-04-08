@@ -242,7 +242,14 @@ jobs:
           echo "::endgroup::"
 
           echo "📥 Collecting artifacts"
-          find bin/targets/ \( -name "*sysupgrade.bin" -o -name "*sysupgrade.itb" \) -exec cp {} $GITHUB_WORKSPACE/firmware_collection/ \;
+          find bin/targets/ \( \
+            -name "*sysupgrade.bin" -o \
+            -name "*sysupgrade.itb" \
+            -name "*preloader.bin" -o \
+            -name "*uboot.fip" -o \
+            -name "*uboot.bin" -o \
+            -name "*gpt.bin" \
+            \) -exec cp {} $GITHUB_WORKSPACE/firmware_collection/ \;
 
           echo "status=success" >> $GITHUB_OUTPUT
 
