@@ -249,6 +249,8 @@ jobs:
           find bin/targets/ \( \
             -name "*sysupgrade.bin" -o \
             -name "*sysupgrade.itb" -o \
+            -name "*recovery.bin" -o \
+            -name "*recovery.itb" -o \
             -name "*preloader.bin" -o \
             -name "*uboot.fip" -o \
             -name "*uboot.bin" -o \
