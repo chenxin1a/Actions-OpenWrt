@@ -77,6 +77,9 @@ jobs:
     steps:
       - name: 🙌 Checkout
         uses: actions/checkout@v4
+        with:
+          clean: true
+          fetch-depth: 0
 
       - name: 🛠️ Init Environment
         run: |
@@ -132,7 +135,8 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull origin main
+          git fetch origin main
+          git reset --hard origin/main
           git add "$CONFIG_FILE"
           git diff --cached --quiet || (git commit -m "Update config: ${CONFIG_FILE}" && git push origin HEAD:main)
           
