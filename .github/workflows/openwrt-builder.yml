@@ -131,12 +131,12 @@ jobs:
           SRC="/workdir/openwrt/.config"
           DST="$GITHUB_WORKSPACE/${CONFIG_FILE}"
           mkdir -p "$(dirname "$DST")"
-          cp -f "$SRC" "$DST"
           cd "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin main
           git reset --hard origin/main
+          cp -f "$SRC" "$DST"
           git add "$CONFIG_FILE"
           git diff --cached --quiet || (git commit -m "Update config: ${CONFIG_FILE}" && git push origin HEAD:main)
           
