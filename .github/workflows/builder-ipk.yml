@@ -22,10 +22,15 @@ on:
         description: '要编译的包列表 (用空格分隔路径)'
         required: true
         default: ''
+      use_cache:
+        description: '是否启用 GitHub 云端同步缓存 (true/false)'
+        required: true
+        default: 'false'
 
 env:
-  TZ: Asia/Shanghai
 
+  TZ: Asia/Shanghai
+  CCACHE_DIR: /workdir/.ccache
 jobs:
   build:
     runs-on: self-hosted
@@ -53,6 +58,17 @@ jobs:
           sudo mkdir -p /workdir
           sudo chown $USER:$GROUPS /workdir
 
+      - name: ⚙️ Sync Cache from GitHub (Optional)
+        if: github.event.inputs.use_cache == 'true'
+        uses: actions/cache@v4
+        with:
+          path: |
+            /workdir/openwrt/dl
+            ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-ipk-v1-${{ github.event.inputs.device_name }}-${{ github.event.inputs.repo_branch }}
+          restore-keys: |
+            ${{ runner.os }}-ipk-v1-${{ github.event.inputs.device_name }}-
+
       - name: 🪜 Clone source code
         working-directory: /workdir
         run: |
@@ -79,6 +95,7 @@ jobs:
       - name: 🔨 Build Multiple Packages
         working-directory: /workdir/openwrt
         run: |
+          export CCACHE_DIR=${{ env.CCACHE_DIR }}
           # 检查 .config 是否存在，防止误操作
           if [ ! -f .config ]; then
             echo "❌ 未检测到 .config 文件，请在 SSH 阶段执行 make menuconfig 并保存"
@@ -86,8 +103,10 @@ jobs:
           fi
 
           # 确保工具链就绪
+          make defconfig
           make tools/install -j$(nproc)
           make toolchain/install -j$(nproc)
+          make target/linux/compile -j$(nproc)
           
           PACKAGES="${{ github.event.inputs.package_list }}"
           for PKG in $PACKAGES; do
