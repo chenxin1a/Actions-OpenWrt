@@ -30,6 +30,12 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: 🙌 Checkout
+        uses: actions/checkout@v4
+        with:
+          clean: true
+          fetch-depth: 1
+          
       - name: 🛠️ Init Environment
         run: |
           sudo -E apt-get -qq update
@@ -57,8 +63,7 @@ jobs:
 
       - name: 🕵️ SSH Connection (Manual Menuconfig)
         uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+        timeout-minutes: 30
 
       - name: 🔨 Build Multiple Packages
         working-directory: /workdir/openwrt
