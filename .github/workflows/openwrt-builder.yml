@@ -78,8 +78,9 @@ jobs:
       - name: 🙌 Checkout
         uses: actions/checkout@v4
         with:
-          clean: true
+          ref: main
           fetch-depth: 1
+          clean: true
 
       - name: 🛠️ Init Environment
         run: |
