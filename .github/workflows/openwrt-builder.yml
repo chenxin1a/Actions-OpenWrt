@@ -52,6 +52,14 @@ on:
         required: false
         type: boolean
         default: false
+      runs_on:
+        description: '编译运行位置'
+        required: true
+        type: choice
+        default: 'self-hosted'
+        options:
+          - self-hosted
+          - ubuntu-22.04
 
 env:
   DEVICE_INPUT: ${{ github.event.inputs.device }}
@@ -66,6 +74,7 @@ env:
   UPLOAD_BIN_DIR: false
   UPLOAD_RELEASE: ${{ github.event.inputs.release }}
   PRERELEASE: ${{ github.event.inputs.prerelease }}
+  RUNSON: ${{ github.event.inputs.runs_on}}
   TZ: Asia/Shanghai
 
 jobs:
@@ -73,7 +82,8 @@ jobs:
     name: ⚙️ Menuconfig & Push
     if: github.event.inputs.ssh == 'true'
 #    runs-on: ubuntu-22.04
-    runs-on: self-hosted
+#    runs-on: self-hosted
+    runs-on: $RUNSON
     steps:
       - name: 🙌 Checkout
         uses: actions/checkout@v4
@@ -150,7 +160,8 @@ jobs:
     needs: menuconfig
     if: always() && (needs.menuconfig.result == 'success' || needs.menuconfig.result == 'skipped')
 #    runs-on: ubuntu-22.04
-    runs-on: self-hosted    
+#    runs-on: self-hosted
+    runs-on: $RUNSON 
     steps:
       - name: 🙌 Checkout
         uses: actions/checkout@v4
