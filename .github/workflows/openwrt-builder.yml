@@ -246,7 +246,7 @@ jobs:
           # 4. 刷新配置并下载
           make defconfig
           # 自动接受所有新增的内核/配置选项（全部使用默认值）
-          yes "" | make olddefconfig
+          yes "" | make oldconfig
           make download -j$(nproc)
             
           # 5. 开始编译
