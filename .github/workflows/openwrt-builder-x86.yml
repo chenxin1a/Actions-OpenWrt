@@ -244,18 +244,11 @@ jobs:
           cp -f $GITHUB_WORKSPACE/$CONFIG .config
           
           # 4. 刷新配置并下载
+          find include/ target/ -name "*.mk" -exec sed -i 's/oldconfig/olddefconfig/g' {} +
           make defconfig
           make download -j$(nproc)
-
-          # 5. 预解压内核，自动补全所有芯片架构的 NEW 内核选项（通用版）
-          make target/linux/prepare -j$(nproc)
-          for dir in build_dir/target-*/linux-*/linux-*; do
-            if [ -d "$dir" ]; then
-              make -C "$dir" olddefconfig
-            fi
-          done
-              
-          # 6. 开始编译
+             
+          # 5. 开始编译
           # 使用 ccache 加速，并保留 Toolchain
           if ! make -j$(nproc) CC="ccache gcc" CXX="ccache g++"; then
             echo "⚠️ Multi-threaded failed, retrying single-threaded..."
