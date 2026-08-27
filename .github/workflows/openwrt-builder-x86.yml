@@ -247,11 +247,11 @@ jobs:
           make defconfig
           make download -j$(nproc)
 
-          # 5. 预解压内核，并调用“内核原生”olddefconfig 补全 CPU 漏洞等新选项
+          # 5. 预解压内核，自动补全所有芯片架构的 NEW 内核选项（通用版）
           make target/linux/prepare -j$(nproc)
           for dir in build_dir/target-*/linux-*/linux-*; do
             if [ -d "$dir" ]; then
-              make -C "$dir" ARCH=x86 olddefconfig
+              make -C "$dir" olddefconfig
             fi
           done
               
