@@ -251,7 +251,7 @@ jobs:
           # 使用 ccache 加速，并保留 Toolchain
           if ! make -j$(nproc) CC="ccache gcc" CXX="ccache g++"; then
             echo "⚠️ Multi-threaded failed, retrying single-threaded..."
-            make -j1 V=s || exit 1
+            make -j$(nproc) V=s || exit 1
           fi
 
           echo "✅ $DEVICES build finished."
