@@ -246,6 +246,8 @@ jobs:
           # 4. 刷新配置并下载
           make defconfig
           make download -j$(nproc)
+          
+          sudo apt-get install -y quilt
           # 预解压内核源码到 build_dir 目录
           make target/linux/prepare -j$(nproc)
           # 进入内核源码目录，调用内核原生的 olddefconfig 自动静默补全所有 (NEW) 选项
