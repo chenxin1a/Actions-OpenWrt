@@ -244,9 +244,9 @@ jobs:
           cp -f $GITHUB_WORKSPACE/$CONFIG .config
           
           # 4. 刷新配置并下载
-          sed -i 's/\ttouch \$@/\t$(MAKE) -C $(LINUX_DIR) $(KERNEL_MAKEOPTS) olddefconfig\n\ttouch $@/' include/kernel-build.mk
           make defconfig
           make download -j$(nproc)
+          printf '\n%.0s' {1..2000} | make target/linux/refresh V=s
              
           # 5. 开始编译
           # 使用 ccache 加速，并保留 Toolchain
