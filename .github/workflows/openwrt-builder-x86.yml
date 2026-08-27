@@ -244,7 +244,7 @@ jobs:
           cp -f $GITHUB_WORKSPACE/$CONFIG .config
           
           # 4. 刷新配置并下载
-          find include/ target/ -name "*.mk" -exec sed -i 's/oldconfig/olddefconfig/g' {} +
+          sed -i 's/\ttouch \$@/\t$(MAKE) -C $(LINUX_DIR) $(KERNEL_MAKEOPTS) olddefconfig\n\ttouch $@/' include/kernel-build.mk
           make defconfig
           make download -j$(nproc)
              
