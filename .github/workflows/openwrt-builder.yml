@@ -245,15 +245,13 @@ jobs:
           
           # 4. 刷新配置并下载
           make defconfig
-          # 自动接受所有新增的内核/配置选项（全部使用默认值）
-          yes "" | make oldconfig
           make download -j$(nproc)
             
           # 5. 开始编译
           # 使用 ccache 加速，并保留 Toolchain
-          if ! yes "" | make -j$(nproc) CC="ccache gcc" CXX="ccache g++"; then
+          if ! make -j$(nproc) CC="ccache gcc" CXX="ccache g++"; then
             echo "⚠️ Multi-threaded failed, retrying single-threaded..."
-            yes "" | make -j1 V=s || exit 1
+            make -j1 V=s || exit 1
           fi
 
           echo "✅ $DEVICES build finished."
