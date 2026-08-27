@@ -244,6 +244,7 @@ jobs:
           cp -f $GITHUB_WORKSPACE/$CONFIG .config
           
           # 4. 刷新配置并下载
+          sudo apt-get install -y quilt
           make defconfig
           make download -j$(nproc)
           printf '\n%.0s' {1..2000} | make target/linux/refresh V=s
