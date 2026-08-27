@@ -94,7 +94,7 @@ jobs:
 
       - name: 🛠️ Init Environment
         run: |
-          sudo apt-get update -qq
+          sudo apt-get update
           sudo apt-get install -y --no-install-recommends libncurses-dev build-essential git wget python3 bzip2
           sudo mkdir -p /workdir
           sudo chown $USER:$GROUPS /workdir
