@@ -244,10 +244,11 @@ jobs:
           cp -f $GITHUB_WORKSPACE/$CONFIG .config
           
           # 4. 刷新配置并下载
-          sudo apt-get install -y quilt
+          # 强制将新选项写入 x86 的内核配置文件
+          echo "CONFIG_MITIGATION_TSA=y" >> target/linux/x86/config-6.6
+          echo "CONFIG_MITIGATION_ITS=y" >> target/linux/x86/config-6.6
           make defconfig
           make download -j$(nproc)
-          printf '\n%.0s' {1..2000} | make target/linux/refresh V=s
              
           # 5. 开始编译
           # 使用 ccache 加速，并保留 Toolchain
