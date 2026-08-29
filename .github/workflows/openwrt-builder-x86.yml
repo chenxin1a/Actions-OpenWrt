@@ -102,6 +102,7 @@ jobs:
       - name: 🪜 Clone source code
         working-directory: /workdir
         run: |
+          sudo rm -rf openwrt/
           git clone $REPO_URL -b $REPO_BRANCH --single-branch --filter=blob:none openwrt
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
@@ -191,6 +192,7 @@ jobs:
       - name: 🪜 Clone source code
         working-directory: /workdir
         run: |
+          sudo rm -rf openwrt/
           git clone $REPO_URL -b $REPO_BRANCH --single-branch --filter=blob:none openwrt
           if [ -n "${REPO_COMMIT}" ]; then
             cd openwrt && git checkout ${REPO_COMMIT}
