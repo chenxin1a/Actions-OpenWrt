@@ -19,4 +19,4 @@
 
 git clone https://github.com/timsaya/luci-app-bandix package/luci-app-bandix
 git clone https://github.com/timsaya/openwrt-bandix package/openwrt-bandix
-git clone https://github.com/chenxin1a/luci-app-mwan3helper-chinaroute package/luci-app-mwan3helper-new
+git clone -b test https://github.com/chenxin1a/luci-app-mwan3helper-chinaroute package/luci-app-mwan3helper-new
