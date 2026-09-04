@@ -274,7 +274,7 @@ jobs:
             -name "*uboot.bin" -o \
             -name "*gpt.bin" -o \
             -name "*img.gz" -o \
-            -name "*rootfs*" -o \
+            -name "*rootfs*" \
             \) -exec cp {} $GITHUB_WORKSPACE/firmware_collection/ \;
 
           echo "🔎 Verifying collected files in firmware_collection:"
